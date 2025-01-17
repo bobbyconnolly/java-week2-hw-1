@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Competition Homework - Part 1: Pet Competition</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+        margin-top: 2rem;
+      }
+
+      pre {
+        background: #f8f9fa;
+        border-radius: 4px;
+        padding: 1rem;
+        overflow-x: auto;
+        border: 1px solid #e9ecef;
+        width: calc(100% - 2rem);
+      }
+
+      .keyword {
+        color: #0033b3;
+      }
+      .string {
+        color: #067d17;
+      }
+      .comment {
+        color: #8c8c8c;
+      }
+      .number {
+        color: #1750eb;
+      }
+      .type {
+        color: #000080;
+      }
+
+      .tip {
+        background: #e3f2fd;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+
+      .warning {
+        background: #fff3e0;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the Pet Competition Project! 🏆</h1>
+
+    <p>
+      Let's put your inheritance knowledge to work by creating a simple pet competition system. We'll start with just
+      one type of event - a fetch competition for dogs! 🎾
+    </p>
+
+    <div class="tip">
+      <strong>Getting Started:</strong> Create a new package called <code>competition</code> inside your
+      <code>week1</code> folder. We'll put all our competition classes here!
+    </div>
+
+    <h2>Step 1: Create a Competitor Class</h2>
+
+    <p>First, let's make a class to track a pet's competition status:</p>
+
+    <pre><span class="keyword">public class</span> Competitor {
+    <span class="keyword">private</span> Pet pet;
+    <span class="keyword">private int</span> score = <span class="number">0</span>;
+    
+    <span class="keyword">public</span> Competitor(Pet pet) {
+        <span class="keyword">this</span>.pet = pet;
+    }
+    
+    <span class="keyword">public</span> Pet getPet() {
+        <span class="keyword">return</span> pet;
+    }
+    
+    <span class="keyword">public int</span> getScore() {
+        <span class="keyword">return</span> score;
+    }
+    
+    <span class="keyword">public void</span> addPoints(<span class="keyword">int</span> points) {
+        <span class="keyword">this</span>.score += points;
+    }
+}</pre>
+
+    <h2>Step 2: Create the FetchCompetition</h2>
+
+    <p>Now let's create our first competition event:</p>
+
+    <pre><span class="keyword">public class</span> FetchCompetition {
+    <span class="keyword">private</span> ArrayList&lt;Competitor&gt; competitors = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    
+    <span class="keyword">public void</span> registerPet(Pet pet) {
+        <span class="keyword">if</span> (canCompete(pet)) {
+            competitors.add(<span class="keyword">new</span> Competitor(pet));
+            System.out.println(pet.getName() + <span class="string">" is registered for the fetch competition!"</span>);
+        } <span class="keyword">else</span> {
+            System.out.println(<span class="string">"Sorry, "</span> + pet.getName() + <span class="string">" cannot compete in fetch."</span>);
+        }
+    }
+    
+    <span class="keyword">private boolean</span> canCompete(Pet pet) {
+        <span class="keyword">return</span> pet <span class="keyword">instanceof</span> Dog;
+    }
+}</pre>
+
+    <h2>Your Tasks</h2>
+
+    <ol>
+      <li>
+        Complete the FetchCompetition class by adding:
+        <ul>
+          <li>
+            A runCompetition() method that:
+            <ul>
+              <li>Makes each dog try to fetch 3 times</li>
+              <li>Awards 5 points for each successful fetch</li>
+              <li>Only trained dogs can fetch successfully!</li>
+            </ul>
+          </li>
+          <li>
+            A displayResults() method that shows:
+            <ul>
+              <li>Each competitor's name and score</li>
+              <li>Who won the competition</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>Testing Your Competition</h2>
+
+    <p>Here's some code to test your implementation:</p>
+
+    <pre><span class="keyword">public static void</span> main(String[] args) {
+    <span class="comment">// Create some pets</span>
+    Dog buddy = <span class="keyword">new</span> Dog(<span class="string">"Buddy"</span>, <span class="number">3</span>);
+    Dog max = <span class="keyword">new</span> Dog(<span class="string">"Max"</span>, <span class="number">2</span>);
+    Cat whiskers = <span class="keyword">new</span> Cat(<span class="string">"Whiskers"</span>, <span class="number">5</span>);
+    
+    <span class="comment">// Create the competition</span>
+    FetchCompetition fetch = <span class="keyword">new</span> FetchCompetition();
+    
+    <span class="comment">// Try to register all pets</span>
+    fetch.registerPet(buddy);  <span class="comment">// Should work</span>
+    fetch.registerPet(max);    <span class="comment">// Should work</span>
+    fetch.registerPet(whiskers);  <span class="comment">// Should not work</span>
+    
+    <span class="comment">// Train one dog</span>
+    buddy.trainFetch();
+    
+    <span class="comment">// Run the competition</span>
+    fetch.runCompetition();
+    fetch.displayResults();
+}</pre>
+
+    <h2>Expected Output</h2>
+
+    <p>Your program should produce output similar to this:</p>
+
+    <pre>
+Buddy is registered for the fetch competition!
+Max is registered for the fetch competition!
+Sorry, Whiskers cannot compete in fetch.
+
+=== Fetch Competition Results ===
+Buddy: 15 points
+Max: 0 points
+
+🏆 Winner: Buddy! 🏆</pre
+    >
+
+    <div class="tip">
+      <strong>Hint:</strong> Remember to check if a dog is trained before awarding points. You can use the instanceof
+      operator and casting to work with Dog-specific methods!
+    </div>
+
+    <h2>What's Next?</h2>
+
+    <p>Coming up, we'll:</p>
+    <ul>
+      <li>Create more types of competitions</li>
+      <li>Learn to handle different pet types</li>
+      <li>Add more complex scoring rules</li>
+    </ul>
+
+    <div class="warning">
+      <strong>Before Moving On:</strong> Make sure:
+      <ul>
+        <li>Your competition correctly validates competitors</li>
+        <li>Only trained dogs can score points</li>
+        <li>The results are displayed clearly</li>
+        <li>You've tested with multiple dogs</li>
+      </ul>
+    </div>
+
+    <h1>Adding More Events to Our Pet Competition! 🎪</h1>
+
+    <p>
+      Great job on the fetch competition! But a real pet show has many different events. Let's make our competition
+      system more flexible by creating a base class that all competitions can use.
+    </p>
+
+    <h2>Step 1: Create the Base Competition Class</h2>
+
+    <p>First, let's create an abstract class that will define what every competition needs:</p>
+
+    <pre><span class="keyword">public abstract class</span> CompetitionEvent {
+    <span class="keyword">private</span> String eventName;
+    <span class="keyword">private</span> ArrayList&lt;Competitor&gt; competitors = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    
+    <span class="keyword">public</span> CompetitionEvent(String eventName) {
+        <span class="keyword">this</span>.eventName = eventName;
+    }
+    
+    <span class="keyword">public void</span> registerPet(Pet pet) {
+        <span class="keyword">if</span> (canCompete(pet)) {
+            competitors.add(<span class="keyword">new</span> Competitor(pet));
+            System.out.println(pet.getName() + <span class="string">" is registered for "</span> + eventName + <span class="string">"!"</span>);
+        } <span class="keyword">else</span> {
+            System.out.println(<span class="string">"Sorry, "</span> + pet.getName() + <span class="string">" cannot compete in "</span> + eventName);
+        }
+    }
+    
+    <span class="keyword">protected</span> ArrayList&lt;Competitor&gt; getCompetitors() {
+        <span class="keyword">return</span> competitors;
+    }
+    
+    <span class="keyword">public void</span> displayResults() {
+        System.out.println(<span class="string">"\n=== "</span> + eventName + <span class="string">" Results ==="</span>);
+        <span class="keyword">for</span> (Competitor c : competitors) {
+            System.out.println(c.getPet().getName() + <span class="string">": "</span> + c.getScore() + <span class="string">" points"</span>);
+        }
+        
+        Competitor winner = findWinner();
+        <span class="keyword">if</span> (winner != <span class="keyword">null</span>) {
+            System.out.println(<span class="string">"\n🏆 Winner: "</span> + winner.getPet().getName() + <span class="string">"! 🏆"</span>);
+        }
+    }
+    
+    <span class="keyword">private</span> Competitor findWinner() {
+        <span class="keyword">if</span> (competitors.isEmpty()) <span class="keyword">return null</span>;
+        
+        Competitor winner = competitors.get(<span class="number">0</span>);
+        <span class="keyword">for</span> (Competitor c : competitors) {
+            <span class="keyword">if</span> (c.getScore() > winner.getScore()) {
+                winner = c;
+            }
+        }
+        <span class="keyword">return</span> winner;
+    }
+    
+    <span class="comment">// Abstract methods that each competition must implement</span>
+    <span class="keyword">protected abstract boolean</span> canCompete(Pet pet);
+    <span class="keyword">public abstract void</span> runCompetition();</pre>
+
+    <div class="tip">
+      <strong>Notice:</strong> We've moved the common code (like tracking competitors and displaying results) into the
+      base class. Each specific competition just needs to define who can compete and how the competition runs!
+    </div>
+
+    <h2>Step 2: Update FetchCompetition</h2>
+
+    <p>Now let's make FetchCompetition use our new base class:</p>
+
+    <pre><span class="keyword">public class</span> FetchCompetition <span class="keyword">extends</span> CompetitionEvent {
+    <span class="keyword">public</span> FetchCompetition() {
+        <span class="keyword">super</span>(<span class="string">"Fetch Competition"</span>);
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected boolean</span> canCompete(Pet pet) {
+        <span class="keyword">return</span> pet <span class="keyword">instanceof</span> Dog;
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> runCompetition() {
+        <span class="keyword">for</span> (Competitor comp : getCompetitors()) {
+            <span class="keyword">if</span> (comp.getPet() <span class="keyword">instanceof</span> Dog) {
+                Dog dog = (Dog) comp.getPet();
+                <span class="comment">// Each dog tries to fetch 3 times</span>
+                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">3</span>; i++) {
+                    <span class="keyword">if</span> (dog.knowsFetch()) {
+                        comp.addPoints(<span class="number">5</span>);
+                    }
+                }
+            }
+        }
+    }
+}</pre>
+
+    <h2>Step 3: Create the Agility Competition! 🏃‍♂️</h2>
+
+    <p>Now it's your turn! Create an AgilityCompetition class that:</p>
+    <ol>
+      <li>Extends CompetitionEvent</li>
+      <li>Allows both dogs and cats to compete (but differently)</li>
+      <li>
+        Has different obstacles worth different points:
+        <ul>
+          <li>Jumps (5 points)</li>
+          <li>Tunnel (10 points)</li>
+          <li>Weave Poles (15 points)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <div class="tip">
+      <strong>Rules for Agility:</strong>
+      <ul>
+        <li>Dogs get a 20% bonus on their final score</li>
+        <li>Cats need energy > 50 to compete</li>
+        <li>Each pet attempts all obstacles once</li>
+        <li>Success chance based on mood and energy</li>
+      </ul>
+    </div>
+
+    <p>Here's a starter template:</p>
+
+    <pre><span class="keyword">public class</span> AgilityCompetition <span class="keyword">extends</span> CompetitionEvent {
+    <span class="keyword">public</span> AgilityCompetition() {
+        <span class="keyword">super</span>(<span class="string">"Agility Competition"</span>);
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">protected boolean</span> canCompete(Pet pet) {
+        <span class="comment">// TODO: Implement validation rules</span>
+    }
+    
+    <span class="annotation">@Override</span>
+    <span class="keyword">public void</span> runCompetition() {
+        <span class="comment">// TODO: Implement competition logic</span>
+    }
+    
+    <span class="keyword">private int</span> attemptObstacle(Pet pet, <span class="keyword">int</span> difficulty) {
+        <span class="comment">// TODO: Implement obstacle attempt logic</span>
+        <span class="comment">// Consider pet's mood and energy</span>
+    }
+}</pre>
+
+    <h2>Testing Your Events</h2>
+
+    <p>Test both competitions together:</p>
+
+    <pre><span class="keyword">public static void</span> main(String[] args) {
+    <span class="comment">// Create pets</span>
+    Dog buddy = <span class="keyword">new</span> Dog(<span class="string">"Buddy"</span>, <span class="number">3</span>);
+    Cat whiskers = <span class="keyword">new</span> Cat(<span class="string">"Whiskers"</span>, <span class="number">5</span>);
+    Dog max = <span class="keyword">new</span> Dog(<span class="string">"Max"</span>, <span class="number">2</span>);
+    
+    <span class="comment">// Set up fetch competition</span>
+    FetchCompetition fetch = <span class="keyword">new</span> FetchCompetition();
+    buddy.trainFetch();  <span class="comment">// Train Buddy</span>
+    fetch.registerPet(buddy);
+    fetch.registerPet(max);
+    
+    <span class="comment">// Set up agility competition</span>
+    AgilityCompetition agility = <span class="keyword">new</span> AgilityCompetition();
+    agility.registerPet(buddy);
+    agility.registerPet(whiskers);
+    agility.registerPet(max);
+    
+    <span class="comment">// Run both events</span>
+    System.out.println(<span class="string">"\n=== Running Fetch Competition ==="</span>);
+    fetch.runCompetition();
+    fetch.displayResults();
+    
+    System.out.println(<span class="string">"\n=== Running Agility Competition ==="</span>);
+    agility.runCompetition();
+    agility.displayResults();
+}</pre>
+
+    <h2>What's Next?</h2>
+
+    <p>In Part 2, we'll:</p>
+    <ul>
+      <li>Create a competition manager to run multiple events</li>
+      <li>Track overall rankings across events</li>
+      <li>Add more complex scoring rules</li>
+    </ul>
+
+    <div class="warning">
+      <strong>Before Moving On:</strong> Make sure:
+      <ul>
+        <li>Both competitions work correctly</li>
+        <li>You're using inheritance properly</li>
+        <li>Your code validates competitors correctly</li>
+        <li>The scoring system makes sense</li>
+      </ul>
+    </div>
+  </body>
+</html>
